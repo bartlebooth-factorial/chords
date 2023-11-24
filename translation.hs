@@ -30,6 +30,7 @@ noteNameDistance nx ny =
 
 octaveReduce :: Int -> Int
 octaveReduce i
+  | i < 0 = error "Interval cannot be < 0"
   | i == 0 = 12
   | i <= 12 = i
   | i > 12 = octaveReduce (i - 12)
