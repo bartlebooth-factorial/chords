@@ -28,7 +28,7 @@ note = do { noteName <- oneOf ['A', 'B', 'C', 'D', 'E', 'F', 'G']
             <|> return (noteName, 0) }
 
 notes :: Parser [Note]
-notes = do { ns <- sepEndBy1 note spaces -- (skipMany1 space)
+notes = do { ns <- sepEndBy1 note spaces
            ; eof
            ; return ns }
 
@@ -40,13 +40,14 @@ run p input =
                    ; print err }
     Right x  -> print x
 
--- for use in =main=
+-- for internal testing
 readNotes :: String -> String
 readNotes input =
   case parse notes "" input of
     Left err -> show err
     Right result -> show result
 
+-- for use in `main`
 parseNotes :: String -> Either ParseError [Note]
-parseNotes noteString = parse notes "" noteString
+parseNotes = parse notes ""
 

@@ -4,7 +4,7 @@ import Parser (Note)
 
 noteNameLadder :: [(Char, Int)]
 noteNameLadder =
-  concat $ repeat
+  cycle
   [('A', 2), ('B', 1), ('C', 2), ('D', 2), ('E', 1), ('F', 2), ('G', 2)]
 
 noteNameDistance :: Char -> Char -> Int

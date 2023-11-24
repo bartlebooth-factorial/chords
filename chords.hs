@@ -88,7 +88,7 @@ chordWithInversionToString :: (Chord, Int) -> String
 chordWithInversionToString (chord, inv) =
   chordToString chord ++ " in " ++ inversionToString inv
   where
-    chordToString c = chordName c
+    chordToString = chordName
 
     inversionToString i
       | i < 0 = error "Chord cannot be in an inversion < 0"
@@ -96,5 +96,5 @@ chordWithInversionToString (chord, inv) =
       | i == 1 = "1st inversion"
       | i == 2 = "2nd inversion"
       | i == 3 = "3rd inversion"
-      | otherwise = (show i) ++ "th inversion"
+      | otherwise = show i ++ "th inversion"
 

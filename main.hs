@@ -17,8 +17,8 @@ test s =
       of
         Nothing -> "Unknown chord"
         Just chord@(chordName, chordInv) ->
-          fst (notes !! ((-chordInv) `mod` (length notes))) : " " ++
-          chordWithInversionToString chord -- show chord
+          fst (notes !! ((-chordInv) `mod` length notes)) : " " ++
+          chordWithInversionToString chord
 
 main :: IO Int
 main =
@@ -26,5 +26,5 @@ main =
      ; case args of
          [] -> do { putStrLn "Error: 1 argument needed, none given"
                   ; return 1 }
-         str:_ -> do { putStrLn (test str) -- (readNotes str)
+         str:_ -> do { putStrLn (test str)
                      ; return 0 } }
