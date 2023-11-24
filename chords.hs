@@ -25,9 +25,13 @@ chordCodex =
     dom7    = MkChord "7"        [0, 4, 7, 10]
     dim7    = MkChord "dim7"     [0, 3, 6, 9 ]
     minMaj7 = MkChord "min maj7" [0, 3, 7, 11]
+
+    sus4 :: Chord
+    sus4 = MkChord "sus4" [0, 5, 7]
   in
     [ maj, min, dim, aug
     , maj7, min7, dom7, dim7, minMaj7
+    , sus4
     ]
 
 normalize :: [Int] -> [Int]
