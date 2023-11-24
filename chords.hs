@@ -1,7 +1,6 @@
 module Chords where
 
-import Data.List
-import Data.Maybe
+import Data.List (unfoldr)
 
 data Chord =
   MkChord
