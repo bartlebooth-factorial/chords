@@ -2,6 +2,16 @@ module Translation where
 
 import Parser (Note)
 
+noteToString :: Note -> String
+noteToString (noteName, delta) =
+  noteName : accidentals
+  where
+    accidentals :: String
+    accidentals
+      | delta < 0 = replicate (-delta) 'b'
+      | delta == 0 = ""
+      | delta > 0 = replicate delta '#'
+
 noteNameLadder :: [(Char, Int)]
 noteNameLadder =
   cycle

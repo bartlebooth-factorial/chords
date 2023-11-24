@@ -17,7 +17,7 @@ test s =
       of
         Nothing -> "Unknown chord"
         Just chord@(chordName, chordInv) ->
-          fst (notes !! ((-chordInv) `mod` length notes)) : " " ++
+          noteToString (notes !! ((-chordInv) `mod` length notes)) ++ " " ++
           chordWithInversionToString chord
 
 main :: IO Int
