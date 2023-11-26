@@ -1,5 +1,5 @@
-chords: main.hs chords.hs parser.hs translation.hs
-	ghc main.hs -o chords
+chords: Main.hs Chords.hs Parser.hs Translation.hs
+	ghc Main.hs -o chords
 
 clean:
 	rm *.hi *.o chords
