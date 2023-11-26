@@ -6,18 +6,20 @@ import Chords
 import Parser
 import Translation
 
-test :: String -> String
-test s =
+process :: String -> [String]
+process s =
   case parseNotes s of
-    Left err -> show err
+    Left err -> [show err]
     Right notes ->
       case
-        findChordFromIntervals $ notesToIntervals notes
+        allPossibleChords $ notesToIntervals notes
       of
-        Nothing -> "Unknown chord"
-        Just chord@(chordName, chordInv) ->
-          noteToString (notes !! ((-chordInv) `mod` length notes)) ++ " " ++
-          chordWithInversionToString chord
+        [] -> ["Unknown chord"]
+        chordsWithInversions ->
+          map (\chord@(chordName, chordInv) ->
+                 noteToString (notes !! ((-chordInv) `mod` length notes)) ++ " " ++
+                 chordWithInversionToString chord
+              ) chordsWithInversions
 
 main :: IO Int
 main =
@@ -25,5 +27,5 @@ main =
      ; case args of
          [] -> do { putStrLn "Error: 1 argument needed, none given"
                   ; return 1 }
-         str:_ -> do { putStrLn (test str)
+         str:_ -> do { mapM_ putStrLn (process str)
                      ; return 0 } }
