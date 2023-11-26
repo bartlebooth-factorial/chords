@@ -8,7 +8,7 @@ against.
 # Installation and Usage
 
 To build `chords`, one will need a recent version of GHC. Clone this repository
-and run make in the cloned directory to compile the `chords` executable.
+and run `make` in the cloned directory to compile the `chords` executable.
 
 Try out the program by running commands such as these.
 
@@ -20,8 +20,8 @@ Try out the program by running commands such as these.
 
 # Notes
 
-`chords` is currently an early work-in-progress. It currently supports only
-exact matches against a small set of chord patterns. The project aspires both to
-include a comprehensive list of commonly known chord patterns, and to output
-best-guess responses for unknown inputs that would align with the judgment of an
+`chords` is an early work-in-progress. It currently supports only exact matches
+against a small set of chord patterns. The project aspires both to include a
+comprehensive list of commonly known chord patterns, and to output best-guess
+responses for unknown inputs that would align with the judgment of an
 experienced musician.
