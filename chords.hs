@@ -104,15 +104,3 @@ allPossibleChords intervals =
         Just a -> a : gather xs
         Nothing -> gather xs
 
-matchToString :: Match -> String
-matchToString (ExactMatch chord invNum) =
-  chordName chord ++ " in " ++ inversionToString invNum
-  where
-    inversionToString i
-      | i < 0 = error "Chord cannot be in an inversion < 0"
-      | i == 0 = "Root position"
-      | i == 1 = "1st inversion"
-      | i == 2 = "2nd inversion"
-      | i == 3 = "3rd inversion"
-      | otherwise = show i ++ "th inversion"
-
