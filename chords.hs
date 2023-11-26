@@ -73,25 +73,6 @@ testAgainstInversions ivs invs =
       then Just (invIvs, invNum)
       else testAgainstInversions ivs rest
 
-findChordFromIntervals :: [Int] -> Maybe (Chord, Int)
-findChordFromIntervals intervals =
-  searchThroughCodex chordCodex
-  where
-    searchThroughCodex :: [Chord] -> Maybe (Chord, Int)
-    searchThroughCodex cdx =
-      case cdx of
-        [] -> Nothing
-        (chord:chords) ->
-          let
-            invs :: [([Int], Int)]
-            invs = inversions chord
-          in
-            case intervals `testAgainstInversions` invs of
-              Nothing ->
-                searchThroughCodex chords
-              Just (matchedIvs, invNum) ->
-                Just (chord, invNum)
-
 checkChord :: [Int] -> Chord -> Maybe (Chord, Int)
 checkChord intervals chord =
   let invs = inversions chord in
