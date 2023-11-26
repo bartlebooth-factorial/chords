@@ -15,11 +15,13 @@ process s =
         allPossibleChords $ notesToIntervals notes
       of
         [] -> ["Unknown chord"]
-        chordsWithInversions ->
-          map (\chord@(chordName, chordInv) ->
-                 noteToString (notes !! ((-chordInv) `mod` length notes)) ++ " " ++
-                 chordWithInversionToString chord
-              ) chordsWithInversions
+        matches ->
+          map (\match ->
+                 case match of
+                   ExactMatch chord chordInv ->
+                     noteToString (notes !! ((-chordInv) `mod` length notes))
+                     ++ " " ++ matchToString match
+              ) matches
 
 main :: IO Int
 main =

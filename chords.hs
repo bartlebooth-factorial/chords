@@ -1,13 +1,24 @@
 module Chords where
 
-import Data.List (unfoldr, sortBy)
+import Data.List (unfoldr, sort)
 
 data Chord =
   MkChord
   { chordName :: String
   , chordIntervals :: [Int]
   }
-  deriving (Show)
+  deriving (Show, Eq)
+
+data Match =
+  ExactMatch
+  { matchedChord :: Chord
+  , matchedInvNum :: Int
+  }
+  deriving (Show, Eq)
+
+instance Ord Match where
+  (<=) (ExactMatch _ invNumX) (ExactMatch _ invNumY)
+    = invNumX <= invNumY
 
 chordCodex :: [Chord]
 chordCodex =
@@ -73,18 +84,18 @@ testAgainstInversions ivs invs =
       then Just (invIvs, invNum)
       else testAgainstInversions ivs rest
 
-checkChord :: [Int] -> Chord -> Maybe (Chord, Int)
+checkChord :: [Int] -> Chord -> Maybe Match
 checkChord intervals chord =
   let invs = inversions chord in
     case intervals `testAgainstInversions` invs of
       Nothing -> Nothing
       Just (matchedIntervals, invNum) ->
-        Just (chord, invNum)
+        Just (ExactMatch chord invNum)
 
-allPossibleChords :: [Int] -> [(Chord, Int)]
+allPossibleChords :: [Int] -> [Match]
 allPossibleChords intervals =
   let results = map (checkChord intervals) chordCodex in
-    occamSort $ gather results
+    sort $ gather results
   where
     gather :: [Maybe a] -> [a]
     gather [] = []
@@ -93,16 +104,10 @@ allPossibleChords intervals =
         Just a -> a : gather xs
         Nothing -> gather xs
 
-    occamSort :: [(a, Int)] -> [(a, Int)]
-    occamSort = sortBy (\ (_, invNum1) (_, invNum2) ->
-                          compare invNum1 invNum2)
-
-chordWithInversionToString :: (Chord, Int) -> String
-chordWithInversionToString (chord, inv) =
-  chordToString chord ++ " in " ++ inversionToString inv
+matchToString :: Match -> String
+matchToString (ExactMatch chord invNum) =
+  chordName chord ++ " in " ++ inversionToString invNum
   where
-    chordToString = chordName
-
     inversionToString i
       | i < 0 = error "Chord cannot be in an inversion < 0"
       | i == 0 = "Root position"
