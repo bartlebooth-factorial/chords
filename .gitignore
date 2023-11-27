@@ -1,3 +1,4 @@
 *.o
 *.hi
 chords
+dist-newstyle

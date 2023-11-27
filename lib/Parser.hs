@@ -28,7 +28,8 @@ note = do { noteName <- oneOf ['A', 'B', 'C', 'D', 'E', 'F', 'G']
             <|> return (noteName, 0) }
 
 notes :: Parser [Note]
-notes = do { ns <- sepEndBy1 note spaces
+notes = do { spaces
+           ; ns <- sepEndBy1 note spaces
            ; eof
            ; return ns }
 

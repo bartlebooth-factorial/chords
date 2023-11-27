@@ -1,0 +1,75 @@
+cabal-version: 3.0
+
+name:
+  chords
+
+-- PVP summary:   +-+------- breaking API changes
+--                | | +----- non-breaking API additions
+--                | | | +--- code changes with no API change
+version:          0.1.0.0
+
+synopsis:
+  Find chord names for a series of notes
+homepage:
+  https://github.com/bartlebooth-factorial/chords
+license:
+  MIT
+license-file:
+  LICENSE
+author:
+  Eric Frederickson
+maintainer:
+  ericfrederickson68@gmail.com
+category:
+  Music
+build-type:
+  Simple
+
+common warnings
+  ghc-options: -Wall
+
+executable chords
+  import:
+    warnings
+  hs-source-dirs:
+    exe
+  default-language:
+    Haskell2010
+  build-depends:
+      base >= 4 && < 5
+    , chords
+  main-is:
+    Main.hs
+
+library
+  import:
+    warnings
+  hs-source-dirs:
+    lib
+  default-language:
+    Haskell2010
+  build-depends:
+      base >= 4 && < 5
+    , parsec >= 3.1.17.0
+  exposed-modules:
+      Chords
+    , Parser
+    , Translation
+
+test-suite test
+  import:
+    warnings
+  hs-source-dirs:
+    tests
+  default-language:
+    Haskell2010
+  type:
+    exitcode-stdio-1.0
+  main-is:
+    test.hs
+  build-depends:
+      base >= 4 && < 5
+    , chords
+    , tasty >= 1.5
+    , tasty-hunit >= 0.10.1
+
