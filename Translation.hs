@@ -1,4 +1,8 @@
-module Translation where
+module Translation
+  ( noteToString
+  , notesToIntervals
+  , matchToString
+  ) where
 
 import Parser (Note)
 import Chords (Chord (..), Match (..))
