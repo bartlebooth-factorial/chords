@@ -8,8 +8,8 @@ against.
 # Installation and Usage
 
 To build `chords`, one will need a recent version of GHC along with the Cabal
-build system. Both of these tools can be installed through
-[`ghcup`](https://www.haskell.org/ghcup/).
+build system. Both of these tools can be installed through `ghcup`, which can be
+found [here](https://www.haskell.org/ghcup/).
 
 To build the project, clone this repository and run `cabal build` in the cloned
 directory. Then try out the program by running commands such as these:
