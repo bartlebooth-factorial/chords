@@ -7,15 +7,17 @@ against.
 
 # Installation and Usage
 
-To build `chords`, one will need a recent version of GHC. Clone this repository
-and run `make` in the cloned directory to compile the `chords` executable.
+To build `chords`, one will need a recent version of GHC along with the Cabal
+build system. Both of these tools can be installed through
+[`ghcup`](https://www.haskell.org/ghcup/).
 
-Try out the program by running commands such as these.
+To build the project, clone this repository and run `cabal build` in the cloned
+directory. Then try out the program by running commands such as these:
 
 ```
-> ./chords "C E G"
-> ./chords "Bb D F A"
-> ./chords "G# A C E"
+> cabal run chords "C E G"
+> cabal run chords "Bb D F A"
+> cabal run chords "G# A C E"
 ```
 
 # Notes
