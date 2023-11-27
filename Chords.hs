@@ -1,4 +1,8 @@
-module Chords where
+module Chords
+  ( Chord (..)
+  , Match (..)
+  , allPossibleChords
+  ) where
 
 import Data.List (unfoldr, sort)
 
