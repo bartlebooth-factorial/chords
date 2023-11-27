@@ -36,7 +36,7 @@ parserTests = testGroup "Parser"
       parseNotes "CDE" @?=
       Right [('C', 0), ('D', 0), ('E', 0)]
 
-  , testCase "Whitespace shouldn't matter" $
+  , testCase "whitespace shouldn't matter" $
       assertEqual ""
       (parseNotes "ABCDEFG") (parseNotes " A B C D   E F G ")
   ]
