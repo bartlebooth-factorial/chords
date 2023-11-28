@@ -33,22 +33,6 @@ notes = do { spaces
            ; eof
            ; return ns }
 
--- for internal testing
-run :: Show a => Parser a -> String -> IO ()
-run p input =
-  case parse p "" input of
-    Left err -> do { putStr "parse error at "
-                   ; print err }
-    Right x  -> print x
-
--- for internal testing
-readNotes :: String -> String
-readNotes input =
-  case parse notes "" input of
-    Left err -> show err
-    Right result -> show result
-
--- for use in `main`
 parseNotes :: String -> Either ParseError [Note]
 parseNotes = parse notes ""
 
