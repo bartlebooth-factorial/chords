@@ -63,5 +63,25 @@ matchingPropTests = testGroup "Matching-strategies property tests"
         ivs = map getPositive (pivs :: [Positive Int])
       in
         closePosition ivs === closePosition (closePosition ivs)
+  , testProperty
+    ("insertion of a duplicate pitch into intervals results in "
+     ++ "only close-position matches if any") $
+    \pivs pindex ->
+      let
+        ivs = map getPositive (pivs :: [Positive Int])
+        index = getPositive (pindex :: Positive Int)
+
+        insertDuplicate :: [a] -> Int -> [a]
+        insertDuplicate xs i =
+          (take i xs) ++ [(xs !! i)] ++ (drop i xs)
+      in
+        index < (length ivs) ==>
+        (all (\ m ->
+               case m of
+                 CloseMatch _ _ _
+                   -> True
+                 _ -> False
+              ) (allPossibleChords (insertDuplicate ivs index))
+         === True)
   ]
 
