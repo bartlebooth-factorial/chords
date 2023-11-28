@@ -13,8 +13,10 @@ main = defaultMain tests
 tests :: TestTree
 tests = testGroup "Tests" [unitTests]
 
+unitTests :: TestTree
 unitTests = testGroup "Unit tests" [parserTests]
 
+parserTests :: TestTree
 parserTests = testGroup "Parser"
   [ testCase "empty input" $
       assertBool "empty input should fail"
