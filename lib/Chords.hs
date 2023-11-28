@@ -28,6 +28,9 @@ data Match =
 instance Ord Match where
   (<=) (ExactMatch _ invNumX) (ExactMatch _ invNumY)
     = invNumX <= invNumY
+  (<=) (CloseMatch _ invNumX _) (CloseMatch _ invNumY _)
+    = invNumX <= invNumY
+  (<=) _ _ = error "Comparison of non-identical match types is unsupported"
 
 chordCodex :: [Chord]
 chordCodex =
