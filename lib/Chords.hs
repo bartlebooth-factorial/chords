@@ -115,7 +115,7 @@ checkChord :: [Int] -> Chord -> Maybe Match
 checkChord intervals chord =
   let invs = inversions chord in
     case intervals `testAgainstInversions` invs of
-      Nothing -> --Nothing
+      Nothing ->
         let closeIvs = closePosition intervals in
         case closeIvs `testAgainstInversions` invs of
           Nothing -> Nothing
