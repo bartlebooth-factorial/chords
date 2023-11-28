@@ -20,6 +20,9 @@ directory. Then try out the program by running commands such as these:
 > cabal run chords "G# A C E"
 ```
 
+If you then want to install the `chords` binary on your system, run `cabal
+install` which will put the executable in `~/.cabal/bin`.
+
 # Notes
 
 `chords` is an early work-in-progress. It currently supports only exact matches
