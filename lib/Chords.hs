@@ -64,6 +64,12 @@ normalize ivs =
     [] -> []
     (root:_) -> map (\ i -> i - root) ivs
 
+-- | Convert a list of intervals to close-position by lowering each
+-- pitch in the tail down to within an octave of the root, removing
+-- duplicate pitches, and sorting the result. The sorting is necessary
+-- only because the matching logic in `checkChord` expects sorted
+-- input; it has no conceptual significance as a close-position chord
+-- can be encoded by a set.
 closePosition :: [Int] -> [Int]
 closePosition ivs =
   case ivs of
