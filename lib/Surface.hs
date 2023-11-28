@@ -17,8 +17,14 @@ process s =
         [] -> ["Unknown chord"]
         matches ->
           map (\match ->
-                 case match of
+                 let
+                   getRootString ns inv =
+                     noteToString (ns !! ((-inv) `mod` length ns))
+                 in case match of
                    ExactMatch _chord chordInv ->
-                     noteToString (notes !! ((-chordInv) `mod` length notes))
+                     getRootString notes chordInv
                      ++ " " ++ matchToString match
+                   CloseMatch _chord chordInv _transformation ->
+                     getRootString notes chordInv
+                     ++ " " ++ matchToString match ++ " (close position)"
               ) matches

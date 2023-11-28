@@ -4,7 +4,7 @@ module Chords
   , allPossibleChords
   ) where
 
-import Data.List (unfoldr, sort)
+import Data.List (unfoldr, sort, nub)
 
 data Chord =
   MkChord
@@ -17,6 +17,11 @@ data Match =
   ExactMatch
   { matchedChord :: Chord
   , matchedInvNum :: Int
+  }
+  | CloseMatch
+  { matchedChord :: Chord
+  , matchedInvNum :: Int
+  , transformation :: [Int]
   }
   deriving (Show, Eq)
 
@@ -59,6 +64,24 @@ normalize ivs =
     [] -> []
     (root:_) -> map (\ i -> i - root) ivs
 
+closePosition :: [Int] -> [Int]
+closePosition ivs =
+  case ivs of
+    [] -> []
+    [root] -> [root]
+    (root : rest) ->
+      if root == 0
+      then root :
+           (sort . nub . (map octaveReduce)) rest
+      else error "Root cannot be non-zero"
+      where
+        octaveReduce :: Int -> Int
+        octaveReduce i
+          | i < 0 = error "Interval cannot be < 0"
+          | i == 0 = 12
+          | i <= 12 = i
+          | i > 12 = octaveReduce (i - 12)
+
 invSucc :: [Int] -> [Int]
 invSucc ivs =
   case ivs of
@@ -92,7 +115,12 @@ checkChord :: [Int] -> Chord -> Maybe Match
 checkChord intervals chord =
   let invs = inversions chord in
     case intervals `testAgainstInversions` invs of
-      Nothing -> Nothing
+      Nothing -> --Nothing
+        let closeIvs = closePosition intervals in
+        case closeIvs `testAgainstInversions` invs of
+          Nothing -> Nothing
+          Just (_matchedIntervals, invNum) ->
+            Just (CloseMatch chord invNum closeIvs)
       Just (_matchedIntervals, invNum) ->
         Just (ExactMatch chord invNum)
 

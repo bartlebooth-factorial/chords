@@ -43,13 +43,6 @@ noteNameDistance nx ny =
     then 12
     else dist
 
-octaveReduce :: Int -> Int
-octaveReduce i
-  | i < 0 = error "Interval cannot be < 0"
-  | i == 0 = 12
-  | i <= 12 = i
-  | i > 12 = octaveReduce (i - 12)
-
 notesToIntervals :: [Note] -> [Int]
 notesToIntervals notes =
   case notes of
@@ -65,7 +58,7 @@ notesToIntervals notes =
             ((nName, nDelta) : ns) ->
               let
                 dist = noteNameDistance referenceName nName
-                iv = octaveReduce $ dist + nDelta + offset
+                iv = dist + nDelta + offset
               in
                 if iv < 0
                 then error "Notes must be given in low-to-high order"
@@ -74,8 +67,12 @@ notesToIntervals notes =
                   makeIntervals nName (iv - nDelta) ns
 
 matchToString :: Match -> String
-matchToString (ExactMatch chord invNum) =
-  chordName chord ++ " in " ++ inversionToString invNum
+matchToString match =
+  case match of
+    ExactMatch chord invNum ->
+      chordName chord ++ " in " ++ inversionToString invNum
+    CloseMatch chord invNum _transformation ->
+      chordName chord ++ " in " ++ inversionToString invNum
   where
     inversionToString i
       | i < 0 = error "Chord cannot be in an inversion < 0"
