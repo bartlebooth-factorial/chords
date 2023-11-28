@@ -93,7 +93,7 @@ checkChord intervals chord =
   let invs = inversions chord in
     case intervals `testAgainstInversions` invs of
       Nothing -> Nothing
-      Just (matchedIntervals, invNum) ->
+      Just (_matchedIntervals, invNum) ->
         Just (ExactMatch chord invNum)
 
 allPossibleChords :: [Int] -> [Match]

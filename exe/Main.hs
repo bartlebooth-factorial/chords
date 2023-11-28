@@ -18,7 +18,7 @@ process s =
         matches ->
           map (\match ->
                  case match of
-                   ExactMatch chord chordInv ->
+                   ExactMatch _chord chordInv ->
                      noteToString (notes !! ((-chordInv) `mod` length notes))
                      ++ " " ++ matchToString match
               ) matches
