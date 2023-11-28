@@ -65,28 +65,23 @@ normalize ivs =
     (root:_) -> map (\ i -> i - root) ivs
 
 -- | Convert a list of intervals to close-position by lowering each
--- pitch in the tail down to within an octave of the root, removing
--- duplicate pitches, and sorting the result. The sorting is necessary
--- only because the matching logic in `checkChord` expects sorted
--- input; it has no conceptual significance as a close-position chord
--- can be encoded by a set.
+-- pitch in the tail down to within (and not including) an octave of
+-- the root, removing duplicate pitches, and sorting the result. The
+-- sorting is necessary only because the matching logic in
+-- `checkChord` expects sorted input; it has no conceptual
+-- significance as a close-position chord can be encoded by a set.
 closePosition :: [Int] -> [Int]
 closePosition ivs =
   case ivs of
     [] -> []
-    [root] -> [root]
-    (root : rest) ->
-      if root == 0
-      then root :
-           (sort . nub . (map octaveReduce)) rest
-      else error "Root cannot be non-zero"
-      where
-        octaveReduce :: Int -> Int
-        octaveReduce i
-          | i < 0 = error "Interval cannot be < 0"
-          | i == 0 = 12
-          | i <= 12 = i
-          | i > 12 = octaveReduce (i - 12)
+    _ -> (sort . nub . (map octaveReduce)) ivs
+  where
+    octaveReduce :: Int -> Int
+    octaveReduce i
+      | i < 0 = error "Interval cannot be < 0"
+      | i == 0 = 0
+      | i < 12 = i
+      | i >= 12 = octaveReduce (i - 12)
 
 invSucc :: [Int] -> [Int]
 invSucc ivs =
