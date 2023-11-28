@@ -1,6 +1,7 @@
 module Chords
   ( Chord (..)
   , Match (..)
+  , closePosition
   , allPossibleChords
   ) where
 

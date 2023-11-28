@@ -73,4 +73,5 @@ test-suite test
     , chords
     , tasty >= 1.5
     , tasty-hunit >= 0.10.1
+    , tasty-quickcheck >= 0.10.3
 
