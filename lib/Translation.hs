@@ -1,8 +1,12 @@
 module Translation
   ( noteToString
   , notesToIntervals
+  , transformNotes
   , matchToString
   ) where
+
+import Control.Exception (assert)
+import Data.List (find)
 
 import Parser (Note)
 import Chords (Chord (..), Match (..))
@@ -65,6 +69,21 @@ notesToIntervals notes =
                 else
                   iv :
                   makeIntervals nName (iv - nDelta) ns
+
+transformNotes :: [Note] -> ([Int], [Int]) -> [Note]
+transformNotes notes (ivs, tfivs) =
+  assert (length notes == length ivs) $
+  genNotes (zip notes ivs) tfivs
+  where
+    genNotes :: [(Note, Int)] -> [Int] -> [Note]
+    genNotes reference generator =
+      case generator of
+        [] -> []
+        (val : vals) ->
+          case (find (\ (_note, iv) ->
+                        (iv `mod` 12) == val) reference) of
+            Just (note, iv) -> note : genNotes reference vals
+            Nothing -> error "Invalid transformation"
 
 matchToString :: Match -> String
 matchToString match =
