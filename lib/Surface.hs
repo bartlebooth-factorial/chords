@@ -42,8 +42,8 @@ matchToStringContextual (notes, intervals, match) verbose =
     getRootString ns inv =
       noteToString (ns !! ((-inv) `mod` length ns))
 
-process :: String -> [String]
-process s =
+process :: String -> Bool -> [String]
+process s verboseFlag =
   case getResult s of
     Left err -> [show err]
     Right (notes, intervals, matches) ->
@@ -52,5 +52,5 @@ process s =
         _ -> map (\ match ->
                     matchToStringContextual
                       (notes, intervals, match)
-                      False
+                      verboseFlag
                  ) matches

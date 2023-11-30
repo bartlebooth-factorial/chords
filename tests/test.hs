@@ -49,29 +49,32 @@ parserTests = testGroup "Parser"
 matchingTests :: TestTree
 matchingTests = testGroup "Matching" [exactTests, closeTests]
 
+processNoV :: String -> [String]
+processNoV = (flip process) False
+
 exactTests :: TestTree
 exactTests = testGroup "Exact Matching"
   [ testCase "C major triad" $
-    process "C E G" @?=
+    processNoV "C E G" @?=
     ["C maj in Root position"]
 
   , testCase "Ab major 7, 3rd inversion" $
-    process "G Ab C Eb" @?=
+    processNoV "G Ab C Eb" @?=
     ["Ab maj7 in 3rd inversion"]
   ]
 
 closeTests :: TestTree
 closeTests = testGroup "Close Matching"
   [ testCase "C major spread triad" $
-    process "C G E" @?=
+    processNoV "C G E" @?=
     ["C maj in Root position (close position)"]
 
   , testCase "B 7, root doubled in the bass" $
-    process "B B D# F# A" @?=
+    processNoV "B B D# F# A" @?=
     ["B 7 in Root position (close position)"]
 
   , testCase "C sus4, F sus2 in 2nd inv, C doubled" $
-    process "C G C F" @?=
+    processNoV "C G C F" @?=
     ["C sus4 in Root position (close position)",
      "F sus2 in 2nd inversion (close position)"]
   ]

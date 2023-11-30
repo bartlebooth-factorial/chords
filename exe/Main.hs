@@ -6,9 +6,17 @@ import Surface
 
 main :: IO Int
 main =
-  do { args <- getArgs
-     ; case args of
-         [] -> do { putStrLn "Error: 1 argument needed, none given"
-                  ; return 1 }
-         str:_ -> do { mapM_ putStrLn (process str)
-                     ; return 0 } }
+  let
+    usageMessage = "Usage: chords [-v] \"[NOTES]\""
+  in
+    do { args <- getArgs
+       ; case args of
+           [] -> do { putStrLn usageMessage
+                    ; return 1 }
+           str:[] -> do { mapM_ putStrLn (process str False)
+                        ; return 0 }
+           flag:str:[] -> do { let verbose = (flag == "-v")
+                               in mapM_ putStrLn (process str verbose)
+                             ;    return 0 }
+           _ -> do { putStrLn usageMessage
+                   ; return 1 } }
