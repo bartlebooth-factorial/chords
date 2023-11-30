@@ -33,7 +33,7 @@ matchToStringContextual (notes, intervals, match) verbose =
       let cpNotes = transformNotes notes (intervals, ivTransformation)
       in (if verbose
           then notesToString notes ++ " -> " ++
-               notesToString cpNotes ++ "  -> "
+               notesToString cpNotes ++ " -> "
           else "") ++
          getRootString cpNotes chordInv ++ " " ++
          matchToString match ++ " (close position)"
