@@ -69,6 +69,11 @@ closeTests = testGroup "Close Matching"
   , testCase "B 7, root doubled in the bass" $
     process "B B D# F# A" @?=
     ["B 7 in Root position (close position)"]
+
+  , testCase "C sus4, F sus2 in 2nd inv, C doubled" $
+    process "C G C F" @?=
+    ["C sus4 in Root position (close position)",
+     "F sus2 in 2nd inversion (close position)"]
   ]
 
 propertyTests :: TestTree
