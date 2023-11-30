@@ -8,6 +8,7 @@ import Test.Tasty.QuickCheck
 
 import Chords
 import Parser
+import Surface
 
 main :: IO ()
 main = defaultMain tests
@@ -16,7 +17,7 @@ tests :: TestTree
 tests = testGroup "Tests" [unitTests, propertyTests]
 
 unitTests :: TestTree
-unitTests = testGroup "Unit tests" [parserTests]
+unitTests = testGroup "Unit tests" [parserTests, matchingTests]
 
 parserTests :: TestTree
 parserTests = testGroup "Parser"
@@ -43,6 +44,31 @@ parserTests = testGroup "Parser"
   , testCase "whitespace shouldn't matter" $
       assertEqual ""
       (parseNotes "ABCDEFG") (parseNotes " A B C D   E F G ")
+  ]
+
+matchingTests :: TestTree
+matchingTests = testGroup "Matching" [exactTests, closeTests]
+
+exactTests :: TestTree
+exactTests = testGroup "Exact Matching"
+  [ testCase "C major triad" $
+    process "C E G" @?=
+    ["C maj in Root position"]
+
+  , testCase "Ab major 7, 3rd inversion" $
+    process "G Ab C Eb" @?=
+    ["Ab maj7 in 3rd inversion"]
+  ]
+
+closeTests :: TestTree
+closeTests = testGroup "Close Matching"
+  [ testCase "C major spread triad" $
+    process "C G E" @?=
+    ["C maj in Root position (close position)"]
+
+  , testCase "B 7, root doubled in the bass" $
+    process "B B D# F# A" @?=
+    ["B 7 in Root position (close position)"]
   ]
 
 propertyTests :: TestTree
