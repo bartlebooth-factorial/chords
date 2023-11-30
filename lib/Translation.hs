@@ -1,5 +1,6 @@
 module Translation
   ( noteToString
+  , notesToString
   , notesToIntervals
   , transformNotes
   , matchToString
@@ -20,6 +21,14 @@ noteToString (noteName, delta) =
       | delta < 0 = replicate (-delta) 'b'
       | delta == 0 = ""
       | delta > 0 = replicate delta '#'
+
+notesToString :: [Note] -> String
+notesToString notes =
+  "[" ++
+  (drop 2 $
+   concatMap
+   (((++) ", ") . noteToString) notes
+  ) ++ "]"
 
 noteNameLadder :: [(Char, Int)]
 noteNameLadder =

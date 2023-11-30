@@ -20,17 +20,23 @@ getResult s =
                , intervals
                , allPossibleChords intervals)
 
-matchToStringContextual :: ([Note], [Int], Match) -> String
-matchToStringContextual (notes, intervals, match) =
+matchToStringContextual :: ([Note], [Int], Match) -> Bool -> String
+matchToStringContextual (notes, intervals, match) verbose =
   case match of
     ExactMatch _chord chordInv ->
-      getRootString notes chordInv
-      ++ " " ++ matchToString match
+      (if verbose
+       then notesToString notes ++ " -> "
+       else "") ++
+      getRootString notes chordInv ++ " " ++
+      matchToString match
     CloseMatch _chord chordInv ivTransformation ->
-      getRootString
-        (transformNotes notes (intervals, ivTransformation))
-        chordInv
-      ++ " " ++ matchToString match ++ " (close position)"
+      let cpNotes = transformNotes notes (intervals, ivTransformation)
+      in (if verbose
+          then notesToString notes ++ " -> " ++
+               notesToString cpNotes ++ "  -> "
+          else "") ++
+         getRootString cpNotes chordInv ++ " " ++
+         matchToString match ++ " (close position)"
   where
     getRootString :: [Note] -> Int -> String
     getRootString ns inv =
@@ -46,4 +52,5 @@ process s =
         _ -> map (\ match ->
                     matchToStringContextual
                       (notes, intervals, match)
+                      False
                  ) matches
