@@ -42,12 +42,14 @@ chordCodex =
     dim = MkChord "dim" [0, 3, 6]
     aug = MkChord "aug" [0, 4, 8]
 
-    maj7, min7, dom7, dim7, minMaj7 :: Chord
-    maj7    = MkChord "maj7"     [0, 4, 7, 11]
-    min7    = MkChord "min7"     [0, 3, 7, 10]
-    dom7    = MkChord "7"        [0, 4, 7, 10]
-    dim7    = MkChord "dim7"     [0, 3, 6, 9 ]
-    minMaj7 = MkChord "min maj7" [0, 3, 7, 11]
+    maj7, min7, dom7, dim7 :: Chord
+    halfDim7, minMaj7      :: Chord
+    maj7     = MkChord "maj7"     [0, 4, 7, 11]
+    min7     = MkChord "min7"     [0, 3, 7, 10]
+    dom7     = MkChord "7"        [0, 4, 7, 10]
+    dim7     = MkChord "dim7"     [0, 3, 6, 9 ]
+    halfDim7 = MkChord "min7(b5)" [0, 3, 6, 10]
+    minMaj7  = MkChord "min maj7" [0, 3, 7, 11]
 
     sus4, sus2 :: Chord
     sus4 = MkChord "sus4" [0, 5, 7]
@@ -58,7 +60,8 @@ chordCodex =
     min6 = MkChord "min6" [0, 3, 7, 9]
   in
     [ maj, min, dim, aug
-    , maj7, min7, dom7, dim7, minMaj7
+    , maj7, min7, dom7, dim7
+      , halfDim7, minMaj7
     , sus4, sus2
     , maj6, min6
     ]

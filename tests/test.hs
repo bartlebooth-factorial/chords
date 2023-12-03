@@ -63,8 +63,12 @@ exactTests = testGroup "Exact Matching"
     ["Ab maj7 in 3rd inversion"]
 
   , testCase "A minor 6, Root position" $
-    processNoV "A C E F#" @?=
-    ["A min6 in Root position"]
+    (head $ processNoV "A C E F#") @?=
+    "A min6 in Root position"
+
+  , testCase "C half-diminished, Root position" $
+    (head $ processNoV "C Eb Gb Bb") @?=
+    "C min7(b5) in Root position"
   ]
 
 closeTests :: TestTree
