@@ -53,13 +53,14 @@ chordCodex =
     sus4 = MkChord "sus4" [0, 5, 7]
     sus2 = MkChord "sus2" [0, 2, 7]
 
-    maj6 :: Chord
+    maj6, min6 :: Chord
     maj6 = MkChord "maj6" [0, 4, 7, 9]
+    min6 = MkChord "min6" [0, 3, 7, 9]
   in
     [ maj, min, dim, aug
     , maj7, min7, dom7, dim7, minMaj7
     , sus4, sus2
-    , maj6
+    , maj6, min6
     ]
 
 normalize :: [Int] -> [Int]
