@@ -75,16 +75,16 @@ closeTests :: TestTree
 closeTests = testGroup "Close Matching"
   [ testCase "C major spread triad" $
     processNoV "C G E" @?=
-    ["C maj in Root position (close position)"]
+    ["C maj in Root position"]
 
   , testCase "B 7, root doubled in the bass" $
     processNoV "B B D# F# A" @?=
-    ["B 7 in Root position (close position)"]
+    ["B 7 in Root position"]
 
   , testCase "C sus4, F sus2 in 2nd inv, C doubled" $
     processNoV "C G C F" @?=
-    ["C sus4 in Root position (close position)",
-     "F sus2 in 2nd inversion (close position)"]
+    ["C sus4 in Root position",
+     "F sus2 in 2nd inversion"]
   ]
 
 propertyTests :: TestTree

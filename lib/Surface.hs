@@ -25,7 +25,7 @@ matchToStringContextual (notes, intervals, match) verbose =
   case match of
     ExactMatch _chord chordInv ->
       (if verbose
-       then notesToString notes ++ " -> "
+       then notesToString notes ++ " ->\n  "
        else "") ++
       getRootString notes chordInv ++ " " ++
       matchToString match
@@ -33,10 +33,10 @@ matchToStringContextual (notes, intervals, match) verbose =
       let cpNotes = transformNotes notes (intervals, ivTransformation)
       in (if verbose
           then notesToString notes ++ " -> " ++
-               notesToString cpNotes ++ " -> "
+               notesToString cpNotes ++ " (close position) ->\n  "
           else "") ++
          getRootString cpNotes chordInv ++ " " ++
-         matchToString match ++ " (close position)"
+         matchToString match
   where
     getRootString :: [Note] -> Int -> String
     getRootString ns inv =
