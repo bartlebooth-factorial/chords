@@ -25,8 +25,9 @@ install` which will put the executable in `~/.cabal/bin`.
 
 # Notes
 
-`chords` is a work-in-progress. It currently supports only exact matches and
-close-position transformed matches against a small set of 3- and 4-note chord
-patterns. The project aspires both to include a comprehensive list of commonly
-known chord patterns, and to output best-guess responses for unknown inputs that
-would align with the judgment of an experienced musician.
+`chords` is a work-in-progress. It currently supports exact matches,
+close-position transformed matches, and slash-chord matches against a small set
+of 3- and 4-note chord patterns. The project aspires both to include a
+comprehensive list of commonly known chord patterns, and to output best-guess
+responses for unknown inputs that would align with the judgment of an
+experienced musician.
