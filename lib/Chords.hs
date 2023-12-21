@@ -6,6 +6,7 @@ module Chords
   ) where
 
 import Data.List (unfoldr, sort, nub)
+import Data.Maybe (isJust)
 
 data Chord =
   MkChord
@@ -24,6 +25,10 @@ data Match =
   , matchedInvNum :: Int
   , transformation :: [Int]
   }
+  | SlashMatch
+  { topChord :: Chord
+  , topChordInvNum :: Int
+  }
   deriving (Show, Eq)
 
 instance Ord Match where
@@ -31,7 +36,16 @@ instance Ord Match where
     = invNumX <= invNumY
   (<=) (CloseMatch _ invNumX _) (CloseMatch _ invNumY _)
     = invNumX <= invNumY
-  (<=) _ _ = error "Comparison of non-identical match types is unsupported"
+  (<=) (SlashMatch _ invNumX) (SlashMatch _ invNumY)
+    = invNumX <= invNumY
+  (<=) (ExactMatch _ _) _
+    = True
+  (<=) (CloseMatch _ _ _) (ExactMatch _ _)
+    = False
+  (<=) (CloseMatch _ _ _) (SlashMatch _ _)
+    = True
+  (<=) (SlashMatch _ _) _
+    = False
 
 chordCodex :: [Chord]
 chordCodex =
@@ -120,22 +134,56 @@ testAgainstInversions ivs invs =
       then Just (invIvs, invNum)
       else testAgainstInversions ivs rest
 
-checkChord :: [Int] -> Chord -> Maybe Match
+checkChord :: [Int] -> Chord -> [Maybe Match]
 checkChord intervals chord =
-  let invs = inversions chord in
-    case intervals `testAgainstInversions` invs of
-      Nothing ->
-        let closeIvs = closePosition intervals in
+  let
+    invs = inversions chord
+
+    exactIvs = intervals
+    closeIvs = closePosition intervals
+    slashTopIvs = tail intervals
+
+    exactMatch =
+      case exactIvs `testAgainstInversions` invs of
+        Nothing -> Nothing
+        Just (_matchedIntervals, invNum) ->
+          Just (ExactMatch chord invNum)
+
+    closeMatch =
+      if isJust exactMatch then
+        Nothing
+      else
         case closeIvs `testAgainstInversions` invs of
           Nothing -> Nothing
           Just (_matchedIntervals, invNum) ->
             Just (CloseMatch chord invNum closeIvs)
-      Just (_matchedIntervals, invNum) ->
-        Just (ExactMatch chord invNum)
+
+    slashMatch =
+      if isJust exactMatch
+      then Nothing
+      else if any (\i -> i `mod` 12 == 0) (tail intervals)
+           then Nothing
+           else
+             case slashTopIvs `testAgainstInversions` invs of
+               Nothing -> Nothing
+               Just (_matchedIntervals, invNum) ->
+                 Just (SlashMatch chord invNum)
+
+  in [exactMatch, closeMatch, slashMatch]
+  -- let invs = inversions chord in
+  --   case intervals `testAgainstInversions` invs of
+  --     Nothing ->
+  --       let closeIvs = closePosition intervals in
+  --       case closeIvs `testAgainstInversions` invs of
+  --         Nothing -> Nothing
+  --         Just (_matchedIntervals, invNum) ->
+  --           Just (CloseMatch chord invNum closeIvs)
+  --     Just (_matchedIntervals, invNum) ->
+  --       Just (ExactMatch chord invNum)
 
 allPossibleChords :: [Int] -> [Match]
 allPossibleChords intervals =
-  let results = map (checkChord intervals) chordCodex in
+  let results = concatMap (checkChord intervals) chordCodex in
     sort $ gather results
   where
     gather :: [Maybe a] -> [a]

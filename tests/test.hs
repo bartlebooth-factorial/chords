@@ -47,7 +47,7 @@ parserTests = testGroup "Parser"
   ]
 
 matchingTests :: TestTree
-matchingTests = testGroup "Matching" [exactTests, closeTests]
+matchingTests = testGroup "Matching" [exactTests, closeTests, slashTests]
 
 processNoV :: String -> [String]
 processNoV = (flip process) False
@@ -59,8 +59,8 @@ exactTests = testGroup "Exact Matching"
     ["C maj in Root position"]
 
   , testCase "Ab major 7, 3rd inversion" $
-    processNoV "G Ab C Eb" @?=
-    ["Ab maj7 in 3rd inversion"]
+    head (processNoV "G Ab C Eb") @?=
+    "Ab maj7 in 3rd inversion"
 
   , testCase "A minor 6, Root position" $
     (head $ processNoV "A C E F#") @?=
@@ -85,6 +85,13 @@ closeTests = testGroup "Close Matching"
     processNoV "C G C F" @?=
     ["C sus4 in Root position",
      "F sus2 in 2nd inversion"]
+  ]
+
+slashTests :: TestTree
+slashTests = testGroup "Slash Matching"
+  [ testCase "A major 7 over Bb" $
+    processNoV "Bb A C# E G#" @?=
+    ["A maj7 in Root position / Bb"]
   ]
 
 propertyTests :: TestTree

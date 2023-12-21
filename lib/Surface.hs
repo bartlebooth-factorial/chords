@@ -37,6 +37,17 @@ matchToStringContextual (notes, intervals, match) verbose =
           else "") ++
          getRootString cpNotes chordInv ++ " " ++
          matchToString match
+    SlashMatch topChord topChordInv ->
+      let topNotes = tail notes
+          slashNoteString = noteToString (head notes)
+      in (if verbose
+          then notesToString notes ++ " -> " ++
+               notesToString topNotes ++ " / " ++
+               slashNoteString ++ " ->\n"
+          else "") ++
+         getRootString topNotes topChordInv ++ " " ++
+         matchToString (ExactMatch topChord topChordInv) ++
+         " / " ++ slashNoteString
   where
     getRootString :: [Note] -> Int -> String
     getRootString ns inv =

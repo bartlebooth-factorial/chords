@@ -101,6 +101,8 @@ matchToString match =
       chordName chord ++ " in " ++ inversionToString invNum
     CloseMatch chord invNum _transformation ->
       chordName chord ++ " in " ++ inversionToString invNum
+    SlashMatch chord invNum ->
+      error "This should be handled by matchToStringContextual"
   where
     inversionToString i
       | i < 0 = error "Chord cannot be in an inversion < 0"
